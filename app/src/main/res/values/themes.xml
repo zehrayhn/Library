@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Library" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#E81717</item> <!--     -->
+        <item name="colorPrimaryDark">#8E1C1C</item>
+        <item name="colorAccent">#987171</item>
+    </style>
+
+
+    <style name="Theme.Library" parent="Base.Theme.Library" />
+
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>
