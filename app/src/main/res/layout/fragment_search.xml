@@ -6,34 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
-    <EditText
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/white"
-        android:contentDescription="search"
-        android:drawableStart="@drawable/baseline_search_24"
-        android:drawablePadding="10dp"
-        android:hint="Search"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="#757575" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBooks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/row_books" />
+      />
 
 
 
