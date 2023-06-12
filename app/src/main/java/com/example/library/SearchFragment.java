@@ -1,37 +1,39 @@
 package com.example.library;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment  {
 
-    Context context;
-    View view;
     private RecyclerView rvBooks;
-    private ArrayList<Books> booksArrayList;
     private BookAdapter adapter;
-    private DatabaseReference myRef;
-    private FirebaseDatabase database;
+    private MenuItem menuItem;
+    private SearchView searchView;
+    Toolbar toolbar;
+    private AppCompatDelegate mDelegate;
 
 
 
@@ -39,71 +41,111 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        toolbar = view.findViewById(R.id.toolbar);
+
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+
 
 
 
         rvBooks = view.findViewById(R.id.rvBooks);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvBooks.setLayoutManager(layoutManager);
         rvBooks.setHasFixedSize(true);
 
-        myRef = FirebaseDatabase.getInstance().getReference();
+        FirebaseRecyclerOptions<Books> options =
+                new FirebaseRecyclerOptions.Builder<Books>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("books"),Books.class )
+                        .build();
 
-        booksArrayList=new ArrayList<>();
+        adapter= new BookAdapter(options);
+        rvBooks.setAdapter(adapter);
 
-        ClearAll();
-
-        GetDataFromFirebase();
-
+        setHasOptionsMenu(true);
         return view;
     }
 
-    private void ClearAll() {
-
-        if(booksArrayList != null){
-            booksArrayList.clear();
-
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-            }
-        }
-
-        booksArrayList = new ArrayList<>();
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
     }
 
-    private void GetDataFromFirebase() {
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 
+    //@Override
+   // public void onCreate(@Nullable Bundle savedInstanceState){
 
-        Query query = myRef.child("books");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+       // super.onCreate(savedInstanceState);
+   // }
+
+    @Override
+   public void onCreateOptionsMenu(Menu menu,MenuInflater menuInflater){
+
+       menuInflater.inflate(R.menu.menu_item,menu);
+       menuItem= menu.findItem(R.id.search);
+       searchView = (SearchView) menuItem.getActionView();
+               //MenuItemCompat.getActionView(menuItem);
+       searchView.setIconified(true);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    Books books = new Books();
-                    books.setBook_image(snapshot.child("book_image").getValue().toString());
-                    books.setBook_name(snapshot.child("book_name").getValue().toString());
-                    books.setAuthor(snapshot.child("author").getValue().toString());
-                    books.setCategory(snapshot.child("category").getValue().toString());
-
-                    booksArrayList.add(books);
-                }
-
-                adapter = new BookAdapter(context,booksArrayList);
-                rvBooks.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+            public boolean onQueryTextSubmit(String query) {
+                txtSearch(query);
+                return false;
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public boolean onQueryTextChange(String query) {
+                txtSearch(query);
+                return false;
             }
         });
-    }
+
+
+
+      super.onCreateOptionsMenu(menu,menuInflater);
+   }
+
+   private void txtSearch(String str){
+       FirebaseRecyclerOptions<Books> options =
+               new FirebaseRecyclerOptions.Builder<Books>()
+                       .setQuery(FirebaseDatabase.getInstance().getReference().child("books").orderByChild("book_name")
+                               .startAt(str).endAt(str+"\uf8ff"),Books.class )
+                       .build();
+
+       adapter = new BookAdapter(options);
+       adapter.startListening();
+       rvBooks.setAdapter(adapter);
+
+   }
+
+
+
+
+
+
+
+
+
 
 
 
 
 }
+
+
+
+
+
 
 

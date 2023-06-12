@@ -5,6 +5,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
     }
+
 
 }

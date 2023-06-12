@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:menu="@menu/menu_item"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBarId"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -16,6 +32,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_below="@id/toolbar"
       />
 
 
