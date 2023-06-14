@@ -2,9 +2,11 @@ package com.example.library;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,8 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.BookViewHolder> {
+import java.util.ArrayList;
+import java.util.List;
 
+public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.BookViewHolder> {
+    private ArrayList<String> addBooksList,endBookList;
     ProgressBar progressBar;
     private RecyclerView rvBooks;
     public BookAdapter(@NonNull FirebaseRecyclerOptions<Books> options) {
@@ -35,15 +40,78 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
 
     @Override
     protected void onBindViewHolder(@NonNull BookViewHolder holder, int position, @NonNull Books books) {
-
+        String title = books.getBook_name();
         holder.textViewTitle.setText(books.getBook_name());
         holder.textViewAuthor.setText(books.getAuthor());
         holder.textViewCategory.setText(books.getCategory());
         holder.imageViewBook.setImageResource(R.mipmap.library_icon_foreground);
+        holder.imageButtonAdded.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference("users/Aley/endBook");
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Veri değiştiğinde bu metot çağırılır
+                        List<String> data = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String value = snapshot.getValue(String.class);
+                            data.add(value);
+
+                        }
+                            endBookList= (ArrayList<String>) data;
+                            endBookList.add(title);
+//                        addBooksList =(ArrayList<String>) data;
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
+                    }
+                });
+
+                FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("endBook").push().setValue(title);
+            }
+        });
         holder.imageButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference("users/Aley/addBook");
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Veri değiştiğinde bu metot çağırılır
+                        List<String> data = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String value = snapshot.getValue(String.class);
+                            data.add(value);
+                        }
 
+                        addBooksList =(ArrayList<String>) data;
+                        addBooksList.add((title));
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
+                    }
+                });
+////                addBooksList.add(holder.textViewTitle.getText().toString());
+//
+//                 if (addBooksList != null){
+//                     Log.e("tag",addBooksList.toString());
+                if(title !=null){
+                    Log.e("title",title);
+                }else {
+                    Log.e("title","title yoooooookkkkkkk");
+                }
+                         FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("addBook").push().setValue(title);
+
+//                 }
+//                else
+//                    FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("addBook").setValue('"'+addBooksList.toString()+'"');
             }
         });
 
@@ -92,7 +160,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+        loadBookAddAndAdded();
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_books,parent,false);
         return new BookViewHolder(view);
@@ -119,6 +187,47 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
         }
     }
 
+    protected void loadBookAddAndAdded(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("users/Aley/addBook");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Veri değiştiğinde bu metot çağırılır
+                List<String> data = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String value = snapshot.getValue(String.class);
+                    data.add(value);
+                }
+
+                addBooksList =(ArrayList<String>) data;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
+            }
+        });
+        ref = database.getReference("users/Aley/endBook");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Veri değiştiğinde bu metot çağırılır
+                List<String> data = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String value = snapshot.getValue(String.class);
+                    data.add(value);
+                    endBookList= (ArrayList<String>) data;
+                }
+
+//                        addBooksList =(ArrayList<String>) data;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
+            }
+        });
+    }
 
 
 
