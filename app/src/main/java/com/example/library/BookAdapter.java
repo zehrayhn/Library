@@ -1,19 +1,29 @@
 package com.example.library;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.BookViewHolder> {
 
@@ -34,8 +44,42 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
             @Override
             public void onClick(View view) {
 
+            }
+        });
 
 
+        holder.imageButtonComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View commentContext = LayoutInflater.from(view.getContext()).inflate(R.layout.row_books_comment,null,false);
+                EditText commentInputLayout = commentContext.findViewById(R.id.commentInput);
+                ViewGroup parent = (ViewGroup) commentInputLayout.getParent();
+
+                if (parent != null) {
+                    parent.removeView(commentInputLayout);
+                }
+
+                AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
+                ad.setView(commentInputLayout);
+                ad.setTitle("Yorum");
+                ad.setMessage("Lütfen Yorumunuzu giriniz...");
+
+                ad.setPositiveButton("Yorum yap", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(view.getContext(), "Okey anahtar değil "+ commentInputLayout.getText().toString(),Toast.LENGTH_SHORT).show();
+                        //firebase e gönderme komutları...
+                        String inputComment = commentInputLayout.getText().toString();
+                    }
+                });
+                ad.setNegativeButton("İptal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(view.getContext(), "İşlem iptal edildi",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ad.create().show();
             }
         });
 
@@ -76,13 +120,8 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
     }
 
 
-    @Override
-    public void onDataChanged(){
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
 
-        }
-    }
+
 }
 
 

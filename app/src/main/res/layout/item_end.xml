@@ -37,15 +37,10 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginBottom="15dp"
-            android:text="......."
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
+       <ListView
+           android:id="@+id/listEnd"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

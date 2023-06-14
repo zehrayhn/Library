@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SearchFragment extends Fragment  {
 
     private RecyclerView rvBooks;
+    private ProgressBar progressBar;
     private BookAdapter adapter;
     private MenuItem menuItem;
     private SearchView searchView;
@@ -47,6 +49,16 @@ public class SearchFragment extends Fragment  {
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
+
+        progressBar = view.findViewById(R.id.progressBarId);
+        progressBar.setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+            }
+        },1000);
 
 
 
@@ -80,11 +92,7 @@ public class SearchFragment extends Fragment  {
         adapter.stopListening();
     }
 
-    //@Override
-   // public void onCreate(@Nullable Bundle savedInstanceState){
 
-       // super.onCreate(savedInstanceState);
-   // }
 
     @Override
    public void onCreateOptionsMenu(Menu menu,MenuInflater menuInflater){
@@ -100,6 +108,7 @@ public class SearchFragment extends Fragment  {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 txtSearch(query);
                 return false;
             }
@@ -117,6 +126,7 @@ public class SearchFragment extends Fragment  {
    }
 
    private void txtSearch(String str){
+
        FirebaseRecyclerOptions<Books> options =
                new FirebaseRecyclerOptions.Builder<Books>()
                        .setQuery(FirebaseDatabase.getInstance().getReference().child("books").orderByChild("book_name")
@@ -128,6 +138,8 @@ public class SearchFragment extends Fragment  {
        rvBooks.setAdapter(adapter);
 
    }
+
+
 
 
 
