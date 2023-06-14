@@ -31,9 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.BookViewHolder> {
-    private ArrayList<String> addBooksList,endBookList;
+    private ArrayList<String> addBooksList, endBookList;
     ProgressBar progressBar;
     private RecyclerView rvBooks;
+
     public BookAdapter(@NonNull FirebaseRecyclerOptions<Books> options) {
         super(options);
     }
@@ -60,17 +61,23 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                             data.add(value);
 
                         }
-                            endBookList= (ArrayList<String>) data;
-                            endBookList.add(title);
+                        endBookList = (ArrayList<String>) data;
+                        endBookList.add(title);
 //                        addBooksList =(ArrayList<String>) data;
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
                     }
                 });
+                if (!endBookList.contains(title)) {
+                    FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("endBook").push().setValue(title);
+                } else if (addBooksList.contains(title)) {
+                    //
 
-                FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("endBook").push().setValue(title);
+                }
+
             }
         });
         holder.imageButtonAdd.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +95,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                             data.add(value);
                         }
 
-                        addBooksList =(ArrayList<String>) data;
+                        addBooksList = (ArrayList<String>) data;
                         addBooksList.add((title));
 
                     }
@@ -98,16 +105,14 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                         Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
                     }
                 });
-////                addBooksList.add(holder.textViewTitle.getText().toString());
-//
-//                 if (addBooksList != null){
-//                     Log.e("tag",addBooksList.toString());
-                if(title !=null){
-                    Log.e("title",title);
-                }else {
-                    Log.e("title","title yoooooookkkkkkk");
+
+                if(!addBooksList.contains(title)){
+                    FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("addBook").push().setValue(title);
+                }else if(endBookList.contains(title)){
+                    //
                 }
-                         FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("addBook").push().setValue(title);
+
+
 
 //                 }
 //                else
@@ -120,7 +125,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
             @Override
             public void onClick(View view) {
 
-                View commentContext = LayoutInflater.from(view.getContext()).inflate(R.layout.row_books_comment,null,false);
+                View commentContext = LayoutInflater.from(view.getContext()).inflate(R.layout.row_books_comment, null, false);
                 EditText commentInputLayout = commentContext.findViewById(R.id.commentInput);
                 ViewGroup parent = (ViewGroup) commentInputLayout.getParent();
 
@@ -136,7 +141,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                 ad.setPositiveButton("Yorum yap", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(view.getContext(), "Okey anahtar değil "+ commentInputLayout.getText().toString(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), "Okey anahtar değil " + commentInputLayout.getText().toString(), Toast.LENGTH_SHORT).show();
                         //firebase e gönderme komutları...
                         String inputComment = commentInputLayout.getText().toString();
                     }
@@ -144,7 +149,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                 ad.setNegativeButton("İptal", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(view.getContext(), "İşlem iptal edildi",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), "İşlem iptal edildi", Toast.LENGTH_SHORT).show();
                     }
                 });
                 ad.create().show();
@@ -162,13 +167,14 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         loadBookAddAndAdded();
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_books,parent,false);
+                .inflate(R.layout.row_books, parent, false);
         return new BookViewHolder(view);
     }
+
     public class BookViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageViewBook;
-        TextView textViewTitle,textViewAuthor,textViewCategory;
+        TextView textViewTitle, textViewAuthor, textViewCategory;
         ImageButton imageButtonAdd, imageButtonAdded, imageButtonComment;
 
         public BookViewHolder(@NonNull View itemView) {
@@ -176,18 +182,18 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
 
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarId);
 
-            imageViewBook = (ImageView)itemView.findViewById(R.id.imageViewBook);
-            textViewTitle = (TextView)itemView.findViewById(R.id.textViewtitle);
-            textViewAuthor= (TextView)itemView.findViewById(R.id.textViewAuthor);
-            textViewCategory= (TextView)itemView.findViewById(R.id.textViewCategory);
-            imageButtonAdd = (ImageButton)itemView.findViewById(R.id.imageButtonAdd);
-            imageButtonAdded = (ImageButton)itemView.findViewById(R.id.imageButtonAdded);
-            imageButtonComment= (ImageButton)itemView.findViewById(R.id.imageButtonComment);
+            imageViewBook = (ImageView) itemView.findViewById(R.id.imageViewBook);
+            textViewTitle = (TextView) itemView.findViewById(R.id.textViewtitle);
+            textViewAuthor = (TextView) itemView.findViewById(R.id.textViewAuthor);
+            textViewCategory = (TextView) itemView.findViewById(R.id.textViewCategory);
+            imageButtonAdd = (ImageButton) itemView.findViewById(R.id.imageButtonAdd);
+            imageButtonAdded = (ImageButton) itemView.findViewById(R.id.imageButtonAdded);
+            imageButtonComment = (ImageButton) itemView.findViewById(R.id.imageButtonComment);
 
         }
     }
 
-    protected void loadBookAddAndAdded(){
+    protected void loadBookAddAndAdded() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users/Aley/addBook");
         ref.addValueEventListener(new ValueEventListener() {
@@ -200,7 +206,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                     data.add(value);
                 }
 
-                addBooksList =(ArrayList<String>) data;
+                addBooksList = (ArrayList<String>) data;
             }
 
             @Override
@@ -217,18 +223,18 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String value = snapshot.getValue(String.class);
                     data.add(value);
-                    endBookList= (ArrayList<String>) data;
+                    endBookList = (ArrayList<String>) data;
                 }
 
 //                        addBooksList =(ArrayList<String>) data;
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
             }
         });
     }
-
 
 
 }
