@@ -58,8 +58,8 @@
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove("username");
                 editor.apply();
-                Intent intent =new Intent(view.getContext(),LoginActivity.class);
-                startActivity(intent);
+//                Intent intent =new Intent(view.getContext(),LoginActivity.class);
+//                startActivity(intent);
             }
         });
 
