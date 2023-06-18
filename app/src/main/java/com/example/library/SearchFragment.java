@@ -2,6 +2,7 @@ package com.example.library;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,9 +28,12 @@ import android.widget.SearchView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Map;
+import java.util.Set;
+
 
 public class SearchFragment extends Fragment  {
-
+    SharedPreferences sharedPrefernce;
     private RecyclerView rvBooks;
     private ProgressBar progressBar;
     private BookAdapter adapter;
@@ -42,6 +47,8 @@ public class SearchFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        sharedPrefernce = getContext().getSharedPreferences("veriler",Context.MODE_PRIVATE);
+        String gelen = sharedPrefernce.getString("username","no login");
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         toolbar = view.findViewById(R.id.toolbar);

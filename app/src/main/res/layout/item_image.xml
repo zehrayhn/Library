@@ -85,7 +85,7 @@
     </RelativeLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:src="@mipmap/library_icon_round"
+        android:src="@drawable/baseline_person_2_24"
         app:shapeAppearanceOverlay="@style/Circular"
         android:elevation="15dp"
         android:padding="5dp"

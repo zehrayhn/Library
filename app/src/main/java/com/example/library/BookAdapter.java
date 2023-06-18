@@ -1,7 +1,9 @@
 package com.example.library;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,9 +38,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.BookViewHolder> {
+    SharedPreferences sharedPreferences;
+    String userName;
     private ArrayList<String> addBooksList, endBookList;
     ProgressBar progressBar;
     private RecyclerView rvBooks;
+    FirebaseAuth mAuth;
 
     public BookAdapter(@NonNull FirebaseRecyclerOptions<Books> options) {
         super(options);
@@ -54,7 +60,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
             @Override
             public void onClick(View v) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("users/Muho/endBook");
+                DatabaseReference ref = database.getReference("users/" + userName + "/endBook");
 
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -76,15 +82,15 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                         Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
                     }
                 });
-                if (endBookList == null && !(addBooksList !=null && addBooksList.contains(title))) {
+                if (endBookList == null && !(addBooksList != null && addBooksList.contains(title))) {
 
-                    FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("endBook").child(title).setValue(title);
+                    FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("endBook").child(title).setValue(title);
                 } else {
                     if (!endBookList.contains(title) && !addBooksList.contains(title)) {
-                        FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("endBook").child(title).setValue(title);
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("endBook").child(title).setValue(title);
                     } else if (addBooksList != null && addBooksList.contains(title)) {
-                        FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("addBook").child(title).removeValue();
-                        FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("endBook").child(title).setValue(title);
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("addBook").child(title).removeValue();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("endBook").child(title).setValue(title);
 
                     }
                 }
@@ -96,7 +102,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
             @Override
             public void onClick(View view) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("users/Muho/addBook");
+                DatabaseReference ref = database.getReference("users/" + userName + "/addBook");
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -117,22 +123,16 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                     }
                 });
 
-                if (addBooksList == null && !(addBooksList !=null && addBooksList.contains(title))) {
-                    FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("addBook").child(title).setValue(title);
+                if (addBooksList == null && !(addBooksList != null && addBooksList.contains(title))) {
+                    FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("addBook").child(title).setValue(title);
                 } else {
-                    if (!addBooksList.contains(title)) {
-                        FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("addBook").child(title).setValue(title);
+                    if (!addBooksList.contains(title)&&!endBookList.contains(title)) {
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("addBook").child(title).setValue(title);
                     } else if (endBookList != null && endBookList.contains(title)) {
-                        FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("endBook").child(title).removeValue();
-                        FirebaseDatabase.getInstance().getReference().child("users").child("Muho").child("addBook").child(title).setValue(title);
-
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("endBook").child(title).removeValue();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userName).child("addBook").child(title).setValue(title);
                     }
                 }
-
-
-//                 }
-//                else
-//                    FirebaseDatabase.getInstance().getReference().child("users").child("Aley").child("addBook").setValue('"'+addBooksList.toString()+'"');
             }
         });
 
@@ -180,7 +180,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                 ListView commentListLayout = commentContext.findViewById(R.id.commentView);
                 ViewGroup parent = (ViewGroup) commentListLayout.getParent();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("comments/books/"+title+"/commentsOfBook");
+                DatabaseReference ref = database.getReference("comments/books/" + title + "/commentsOfBook");
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -212,7 +212,8 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
 
                 ad.setNegativeButton("Tamam", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {}
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 });
                 ad.create().show();
             }
@@ -227,6 +228,8 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        sharedPreferences = parent.getContext().getSharedPreferences("veriler", Context.MODE_PRIVATE);
+        userName = sharedPreferences.getString("username", "no login");
         loadBookAddAndAdded();
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_books, parent, false);
@@ -239,9 +242,11 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
         TextView textViewTitle, textViewAuthor, textViewCategory;
         ImageButton imageButtonAdd, imageButtonAdded, imageButtonComment;
         CardView bookFrame;
+
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
-
+//            sharedPreferences = itemView.getContext().getSharedPreferences("veriler", Context.MODE_PRIVATE);
+//            userName = sharedPreferences.getString("username", "no login");
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarId);
             bookFrame = (CardView) itemView.findViewById((R.id.bookCard));
             imageViewBook = (ImageView) itemView.findViewById(R.id.imageViewBook);
@@ -256,8 +261,9 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
     }
 
     protected void loadBookAddAndAdded() {
+//        mAuth.getCurrentUser().getDisplayName();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users/Muho/addBook");
+        DatabaseReference ref = database.getReference("users/" + userName + "/addBook");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -267,7 +273,6 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                     String value = snapshot.getValue(String.class);
                     data.add(value);
                 }
-
                 addBooksList = (ArrayList<String>) data;
             }
 
