@@ -20,6 +20,7 @@
     import android.widget.ArrayAdapter;
     import android.widget.ListView;
     import android.widget.Switch;
+    import android.widget.TextView;
 
     import com.firebase.ui.database.FirebaseRecyclerOptions;
     import com.google.android.material.button.MaterialButton;
@@ -36,13 +37,13 @@
 
 
     public class ProfileFragment extends Fragment {
+
+    TextView name;
     String userName;
     MaterialButton exitButton;
     private ListView  listAdd,listEnd;
     private SharedPreferences sharedPreferences;
-    Switch aSwitch;
-    boolean nightMODE;
-    SharedPreferences.Editor editor;
+
 
 
     @Override
@@ -51,21 +52,30 @@
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         sharedPreferences = getContext().getSharedPreferences("veriler", Context.MODE_PRIVATE);
         userName = sharedPreferences.getString("username", "no login");;
-        listAdd = view.findViewById(R.id.listAdd);
-        listEnd = view.findViewById(R.id.listEnd);
-        exitButton = view.findViewById(R.id.exitBtn);
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+        if (userName.isEmpty()) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+        else {
+            listAdd = view.findViewById(R.id.listAdd);
+            listEnd = view.findViewById(R.id.listEnd);
+            exitButton = view.findViewById(R.id.exitBtn);
+            name = view.findViewById(R.id.name);
+            name.setText(userName);
+            exitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("username");
-                editor.apply();
-                Intent intent =new Intent(view.getContext(),LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("username");
+                    editor.apply();
+                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users/"+userName+"/addBook");
@@ -78,9 +88,11 @@
                     String value = snapshot.getValue(String.class);
                     data.add(value);
                 }
-                Log.e("Aley",data.toString());
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
-                listAdd.setAdapter(adapter);
+                if (data != null) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
+                    listAdd.setAdapter(adapter);
+                }
+
             }
 
             @Override
@@ -101,9 +113,10 @@
                     String value = snapshot.getValue(String.class);
                     data.add(value);
                 }
-                Log.e("Aley",data.toString());
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
-                listEnd.setAdapter(adapter);
+                if (data != null) {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, data);
+                    listEnd.setAdapter(adapter);
+                }
 
             }
 
@@ -112,10 +125,7 @@
                 Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
             }
 
-
         });
-
-
 
         return  view;
 
