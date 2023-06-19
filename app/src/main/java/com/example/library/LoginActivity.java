@@ -92,31 +92,6 @@ public class LoginActivity extends AppCompatActivity {
                                 });
 
 
-//                Boolean userHas = userHas(usernameInput);
-//                Boolean userWhoHasPassword = false;
-//                if (userHas) {
-//                    userWhoHasPassword = correctPassword(usernameInput, passwordInput);
-//                }
-//                if (userWhoHasPassword) {
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    editor.putString("username", usernameInput);
-////                    editor.putString("", txtSoyisim.getText().toString());
-////                    editor.putInt("yas", Integer.parseInt(txtYas.getText().toString()));
-////                editor.commit();
-//                    editor.apply();
-//
-//                    Intent startApp = new Intent(LoginActivity.this, MainActivity.class);
-//                    LoginActivity.this.startActivity(startApp);
-//                }
-////                SharedPreferences.Editor editor = sharedPreferences.edit();
-////                editor.putString("username", usernameInput);
-//////                    editor.putString("", txtSoyisim.getText().toString());
-//////                    editor.putInt("yas", Integer.parseInt(txtYas.getText().toString()));
-//////                editor.commit();
-////                editor.apply();
-////                Intent startApp = new Intent(LoginActivity.this, MainActivity.class);
-////                LoginActivity.this.startActivity(startApp);
-
             }
         });
         signBtn.setOnClickListener(new View.OnClickListener() {
