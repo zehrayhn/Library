@@ -19,6 +19,7 @@
     import android.view.ViewGroup;
     import android.widget.ArrayAdapter;
     import android.widget.ListView;
+    import android.widget.Switch;
 
     import com.firebase.ui.database.FirebaseRecyclerOptions;
     import com.google.android.material.button.MaterialButton;
@@ -39,6 +40,9 @@
     MaterialButton exitButton;
     private ListView  listAdd,listEnd;
     private SharedPreferences sharedPreferences;
+    Switch aSwitch;
+    boolean nightMODE;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -117,6 +121,5 @@
 
 
     }
-
 
     }

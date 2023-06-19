@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="180dp">
         <androidx.cardview.widget.CardView
             app:cardCornerRadius="15dp"
             android:layout_marginTop="40dp"
@@ -19,64 +19,38 @@
             card_view:cardCornerRAdius="5dp"
             android:layout_width="match_parent"
             android:layout_height="250dp">
+
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="83dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:gravity="center"
                     android:text="Aleyna Berfe DEMİR"
-                    android:textSize="20sp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:text="Öğrenci"
-                    android:textSize="12sp"
+                    android:text="@string/ogrenci"
                     android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="12sp" />
+
                 <View
-                    android:background="@color/cardview_light_background"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
+                    android:layout_height="1dp"
+                    android:background="@color/cardview_light_background" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:weightSum="3"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:layout_weight="1"
-                        android:text="26.07.2000"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
-                    <View
-                        android:background="@color/cardview_light_background"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"/>
-                    <TextView
-                        android:layout_weight="1"
-                        android:text="5431224244"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
 
             </LinearLayout>
 

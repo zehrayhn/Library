@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="35dp"
         android:gravity="center_vertical"
-        android:text="@string/hosgeldin"
+        android:text="@string/hosgeldiniz"
         android:textColor="@android:color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="Okuduğun Kitap Sayısı"
+        android:text="@string/okudugun_kitap_sayisi"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label"
         android:layout_marginTop="95dp"/>
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="45dp"
-        android:text="Okumayı Hedeflediğin\n Kitap Sayısı"
+        android:text="@string/okumayi_hedefledigin_kitap_sayisi"
         app:layout_constraintBaseline_toBaselineOf="@id/textView11"
         app:layout_constraintBottom_toTopOf="@id/label"
         app:layout_constraintLeft_toRightOf="@id/textView11" />
@@ -71,7 +71,7 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Günlük Okunacak Sayfa\n Sayısı"
+        android:text="@string/guluk_okunacak_kitap_sayisi"
         app:layout_constraintTop_toBottomOf="@id/textView14"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="125dp"
@@ -96,7 +96,7 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Okumya Devam ettiğin\n Kitap Sayısı"
+        android:text="@string/okumaya_devam_ettigin_kitap_sayisi"
         app:layout_constraintLeft_toRightOf="@id/textView12"
         app:layout_constraintTop_toBottomOf="@id/textView14"
         android:layout_marginTop="125dp"
@@ -114,5 +114,32 @@
         app:layout_constraintLeft_toRightOf="@id/textView12"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="25dp"/>
+
+    <Switch
+        android:id="@+id/aswitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/baseline_wb_sunny_24"
+        app:layout_constraintEnd_toStartOf="@+id/aswitch"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/baseline_dark_mode_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

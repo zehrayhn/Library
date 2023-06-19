@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     app:cardCornerRadius="15dp"
+    style="@style/SCREEN"
     app:cardElevation="10dp"
     app:cardUseCompatPadding="true"
     card_view:cardCornerRAdius="5dp">
@@ -29,8 +30,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                style="@style/TEXT"
                 android:layout_marginStart="10dp"
-                android:text="Okunacak Kitaplar"
+                android:text="@string/okunacak_kitaplar"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -39,33 +41,24 @@
 
 
 
-<!--        <ScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/rvAddBooks"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:layout_marginBottom="10dp" />-->
+
 
                 <ListView
                     android:id="@+id/listAdd"
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
 
 
             </LinearLayout>
-<!--        </ScrollView>-->
+
 
     </LinearLayout>
 

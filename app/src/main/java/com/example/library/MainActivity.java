@@ -5,10 +5,12 @@ import androidx.core.splashscreen.SplashScreen;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.Switch;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,6 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     private BottomNavigationView bottomNav;
     @Override
@@ -29,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().
                 findFragmentById(R.id.navHostFragment);
         NavigationUI.setupWithNavController(bottomNav,navHostFragment.getNavController());
+
+
+
+
+
+
 
 
 
