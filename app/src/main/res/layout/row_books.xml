@@ -9,6 +9,7 @@
     app:cardCornerRadius="5dp"
     app:cardElevation="6dp"
     app:contentPadding="5dp"
+    style="@style/CardView.Dark"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -43,7 +44,7 @@
             android:layout_toEndOf="@id/imageViewBook"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Author" />
+            android:text="@string/author" />
 
         <TextView
             android:id="@+id/textViewCategory"
@@ -53,7 +54,7 @@
             android:layout_below="@id/textViewAuthor"
             android:layout_toEndOf="@id/imageViewBook"
             android:maxLines="1"
-            android:text="Category" />
+            android:text="@string/category" />
 
         <ImageButton
             android:id="@+id/imageButtonAdd"
@@ -91,10 +92,6 @@
 
 
     </RelativeLayout>
-
-
-
-
 
 
 </androidx.cardview.widget.CardView>

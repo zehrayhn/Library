@@ -40,7 +40,7 @@ public class SearchFragment extends Fragment  {
     private MenuItem menuItem;
     private SearchView searchView;
     Toolbar toolbar;
-    private AppCompatDelegate mDelegate;
+
 
 
 
@@ -66,9 +66,6 @@ public class SearchFragment extends Fragment  {
                 progressBar.setVisibility(View.GONE);
             }
         },1000);
-
-
-
 
         rvBooks = view.findViewById(R.id.rvBooks);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

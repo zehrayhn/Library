@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#aab8c0</color>
     <color name="splashScreen">#607D8B </color>
+    <color name="textHome">#34495E</color>
 </resources>

@@ -73,8 +73,6 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
 
                         }
                         endBookList = (ArrayList<String>) data;
-
-//                        addBooksList =(ArrayList<String>) data;
                     }
 
                     @Override
@@ -116,7 +114,6 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                         addBooksList = (ArrayList<String>) data;
 
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Log.e("Firebase", "Veri okuma hatası: " + error.getMessage());
@@ -245,8 +242,6 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
 
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
-//            sharedPreferences = itemView.getContext().getSharedPreferences("veriler", Context.MODE_PRIVATE);
-//            userName = sharedPreferences.getString("username", "no login");
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarId);
             bookFrame = (CardView) itemView.findViewById((R.id.bookCard));
             imageViewBook = (ImageView) itemView.findViewById(R.id.imageViewBook);
@@ -261,7 +256,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
     }
 
     protected void loadBookAddAndAdded() {
-//        mAuth.getCurrentUser().getDisplayName();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users/" + userName + "/addBook");
         ref.addValueEventListener(new ValueEventListener() {
@@ -293,7 +288,6 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
                     endBookList = (ArrayList<String>) data;
                 }
 
-//                        addBooksList =(ArrayList<String>) data;
             }
 
             @Override

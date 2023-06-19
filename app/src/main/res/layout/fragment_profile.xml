@@ -13,7 +13,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cornerRadius="50dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginRight="@dimen/margin_profile"
     android:layout_gravity="right"
     android:text="@string/exit" />
 
@@ -25,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginLeft="@dimen/margin_profile"
+        android:layout_marginRight="@dimen/margin_profile" />
 
     <ScrollView
         android:layout_width="match_parent"

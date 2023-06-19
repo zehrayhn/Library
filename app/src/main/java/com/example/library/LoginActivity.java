@@ -50,8 +50,6 @@ public class LoginActivity extends AppCompatActivity {
     MaterialButton loginBtn, signBtn;
 
 
-    private BottomNavigationView bottomNav;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.installSplashScreen(this);
