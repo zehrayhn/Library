@@ -142,21 +142,6 @@ public class SearchFragment extends Fragment  {
        rvBooks.setAdapter(adapter);
 
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

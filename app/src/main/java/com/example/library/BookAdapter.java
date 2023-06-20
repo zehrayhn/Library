@@ -55,7 +55,7 @@ public class BookAdapter extends FirebaseRecyclerAdapter<Books, BookAdapter.Book
         holder.textViewTitle.setText(books.getBook_name());
         holder.textViewAuthor.setText(books.getAuthor());
         holder.textViewCategory.setText(books.getCategory());
-        holder.imageViewBook.setImageResource(R.mipmap.library_icon_foreground);
+        holder.imageViewBook.setImageResource(R.mipmap.ic_launcher);
         holder.imageButtonAdded.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

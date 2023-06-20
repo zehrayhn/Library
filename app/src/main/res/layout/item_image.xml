@@ -11,20 +11,20 @@
     <RelativeLayout
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="@dimen/_180dp">
         <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
-            android:layout_marginTop="40dp"
-            app:cardElevation="10dp"
+            app:cardCornerRadius="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_40dp"
+            app:cardElevation="@dimen/_10dp"
             app:cardUseCompatPadding="true"
             card_view:cardCornerRAdius="5dp"
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="@dimen/_250dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="83dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="@dimen/_83dp"
+                android:layout_marginTop="@dimen/_10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -36,23 +36,23 @@
                     android:gravity="center"
                     android:text="@string/name"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_20sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:layout_marginBottom="@dimen/_5dp"
                     style="@style/TEXT"
                     android:gravity="center"
                     android:text="@string/ogrenci"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_12sp" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/_1dp"
                     android:background="@color/cardview_light_background" />
 
 
